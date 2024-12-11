@@ -60,3 +60,16 @@ h1 = User('well', 123, 34)
 #     return self
 # add_user — метод добавления пользователя в список users.
 
+class UrTube:
+    users = []
+
+    def __init__(self, nickname, password):
+        self.current_user = None
+        self.age = None
+        self.nickname = nickname
+        self.password = password
+
+    def register(self, nickname, password, age):
+        if nickname in users:
+
+    def log_in()
