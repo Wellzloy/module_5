@@ -1,9 +1,20 @@
+import hashlib
+
+
 class User:
 
     def __init__(self, nickname: str, password: int, age: int):
         self.nickname = nickname
-        self.password = password
+        self.password_hash = self.hash_password(password)
         self.age = age
+
+
+    def hash_password(self, password):
+        return int(hashlib.sha256(password.encode()).hexdigest(), 16)
+
+
+    def check_password(self, password):
+        return  self.password_hash == self.hash_password(password)
 
 
 
@@ -22,12 +33,28 @@ class UrTube:
         self.users = []
         self.videos = []
         self.current_user = None
-        print(self.users)
 
     def log_in(self, nickname, password):
-        print(self.users)
-    #     # if nickname in User(nickname, password):
-    #     #     print('ok')
+        for user in self.users:
+            if user.nickname == nickname and user.check_password(password):
+                self.current_user = user
+                print(f'Пользователь {nickname} успешно вошел')
+                return True
+
+        print('Неверный логин или пароль')
+        return False
+
+    def register(self, nickname, password, age):
+        for user in self.users:
+            if user.nickname == nickname:
+                print(f"Пользователь {nickname} уже существует.")
+                return False
+        new_user = User(nickname, password, age)
+        self.users.append(new_user)
+        self.log_in(nickname, password)
+                
+
+
 
 
 ur = UrTube()
